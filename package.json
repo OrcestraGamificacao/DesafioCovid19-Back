@@ -1,0 +1,30 @@
+{
+  "name": "DesafioCovid19-Back",
+  "version": "1.0.0",
+  "description": "Repositório para a aplicação que propõe resolver o Desafio de Número 3, lançado pelo governo de Pernambuco",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrcestraGamificacao/DesafioCovid19-Back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OrcestraGamificacao/DesafioCovid19-Back/issues"
+  },
+  "homepage": "https://github.com/OrcestraGamificacao/DesafioCovid19-Back#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
