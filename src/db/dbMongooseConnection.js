@@ -7,7 +7,7 @@ module.exports = {
         useNewUrlParser: true,
         useUnifiedTopology: true
       };
-        mongoose.connect('mongodb://db:27018/desafiodb', options)
+        mongoose.connect('mongodb://db:27018/server', options)
         .then(result => {
             console.log('Mongo DB Conectado');
         })
