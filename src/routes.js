@@ -1,23 +1,15 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const SchemaTest = require('./schemas/schemaTeste')
-
+const User = require('./controllers/userController');
 const router = express.Router();
 
-router.post('/teste', (req, res) => {
-    const novoNome = new SchemaTest({
-      nome: req.body.nome,
-      email: req.body.email
-    });
-  
-    novoNome
-      .save()
-      .then(result => {
-        res.json(result);
-      })
-      .catch(error => {
-        res.status(500).json(error);
-      });
-  });
 
+const usuario = new User();
+router.post('/user/create', usuario.createUser);
+router.get('/user/show', usuario.showUsers);
+router.get('/user/find', usuario.findUser);
+router.post('/user/update', usuario.findAndUpdate);
+router.delete('/user/delete', usuario.findAndDelete);
+router.post('/login', usuario.login); 
+router.get('/autenticado', usuario.verifyJWT, usuario.showUsers); //essa é uma rota com middleware de autenticação
+  
 module.exports = router;
