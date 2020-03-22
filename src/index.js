@@ -1,8 +1,9 @@
 const express = require('express');
 const routes = require('./routes');
 const app = express();
+const mongooseConnect = require('./db/dbMongooseConnection');
 
-var mongoose = require('mongoose');
+mongooseConnect.connect();
 
 app.use(express.json());
 app.use(routes);
