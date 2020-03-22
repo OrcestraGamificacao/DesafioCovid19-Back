@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const SchemaTest = require('./schemas/schemaTeste')
+const agglomerationController = require('./controller/agglomerationController')
 
 const router = express.Router();
 
@@ -18,6 +19,9 @@ router.post('/teste', (req, res) => {
       .catch(error => {
         res.status(500).json(error);
       });
-  });
+ });
+
+ router.get('/agglomerations', agglomerationController.index);
+ router.post('/agglomerations', agglomerationController.store);
 
 module.exports = router;
