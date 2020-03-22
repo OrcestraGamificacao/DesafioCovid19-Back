@@ -2,25 +2,19 @@ version: '3'
 
 services:
   server:
-    container_name: desafio
-    build: '.'
+    build: .
+    restart: always
     volumes:
-      - ./:/node-app
-      - ./node_modules:/node-app/node_modules
-    environment:
-      NODE_ENV: development
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    command: npm run dev
     depends_on:
       - db
-    links:
-      - db
-    ports:
-      - '3000:3000'
 
   db:
-    image: 'mongo'
-    container_name: desafiodb
+    image: aashreys/mongo-auth:latest
     command: mongod --port 27018
     ports:
-      - '27018:27018'
-    volumes:
-      - ./data/db:/data/db
+      - 27018:27018
