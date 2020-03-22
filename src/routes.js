@@ -1,15 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const SchemaTest = require('./schemas/schemaTeste')
 
 const router = express.Router();
 
-router.get('/teste', (req, res) => {
-    var db = require("./schemas/schemaTeste.js");
-    var Users = db.Mongoose.model('usercollection', db.UserSchema, 'usercollection');
-    Users.find({}).lean().exec(
-       function (e, docs) {
-          res.json({ "userlist": docs });
-    })
-});
+router.post('/teste', (req, res) => {
+    const novoNome = new SchemaTest({
+      nome: req.body.nome,
+      email: req.body.email
+    });
+  
+    novoNome
+      .save()
+      .then(result => {
+        res.json(result);
+      })
+      .catch(error => {
+        res.status(500).json(error);
+      });
+  });
 
 module.exports = router;

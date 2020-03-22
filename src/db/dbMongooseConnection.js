@@ -7,6 +7,12 @@ module.exports = {
         useNewUrlParser: true,
         useUnifiedTopology: true
       };
-        mongoose.connect('mongodb://127.0.0.1:27017/desafiodb', options);
+        mongoose.connect('mongodb://db:27018/desafiodb', options)
+        .then(result => {
+            console.log('Mongo DB Conectado');
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 };
