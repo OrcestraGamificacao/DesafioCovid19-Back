@@ -21,7 +21,9 @@ router.post('/teste', (req, res) => {
       });
  });
 
+ router.get('/agglomerations/send', agglomerationController.show);
  router.get('/agglomerations', agglomerationController.index);
- router.post('/agglomerations', agglomerationController.store);
+ router.put('/agglomerations/update', agglomerationController.update);
+ router.post('/agglomerations/create', agglomerationController.store);
 
 module.exports = router;

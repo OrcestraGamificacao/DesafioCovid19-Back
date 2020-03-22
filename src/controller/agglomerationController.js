@@ -22,12 +22,7 @@ module.exports = {
     },
 
     async index(request, response){
-        const { latitude, longitude } = request.query;
-        const location = {
-            type: 'Point',
-            coordinates: [longitude, latitude],
-        };
-        let agglomeration = await Agglomeration.findOne({ location });
+        const agglomeration = await Agglomeration.find();
         
         return response.json({ agglomeration });
     },
@@ -72,6 +67,16 @@ module.exports = {
     },
 
     async update(request, response){
+        const { id, votes_negative, votes_positive} = request.body;
+        const agglomeration = await Agglomeration.findOne(id);
 
+        if (!agglomeration){
+            agglomeration.update({
+                votes_negative,
+                votes_positive 
+            });
+        }
+        
+        return response.json({ agglomeration });
     }
 }
