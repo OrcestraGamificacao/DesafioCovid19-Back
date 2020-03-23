@@ -5,7 +5,7 @@ const aglomeracaoSchema = new mongoose.Schema({
     location_name: String,
     description: String,
     image_url: String,
-    aglomeration_level: Number,
+    agglomeration_level: Number,
     start_timestamp: {type:Date, default: Date.now},
     end_timestamp: Date,
     active: Boolean,
