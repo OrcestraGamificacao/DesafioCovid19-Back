@@ -2,26 +2,47 @@
 const SchemaUser = require('./../schemas/schemaUser');
 var jwt = require('jsonwebtoken');
 require('dotenv-safe').config();
+var crypto = require('crypto');
+const { cpf } = require('cpf-cnpj-validator');
 
 class User {
     constructor() {
         
       }
-
+      
     createUser(req, res){
         //cria usuario com username e email
-        const newUser = new SchemaUser({
-        username: req.body.nome,
-        email: req.body.email,
-        removed: false,
-        cpf: req.body.cpf,
-        senha: req.body.senha
-        });
-    
-        newUser
-        .save()
+        
+        if(!cpf.isValid(req.body.cpf)){
+            return res.status(422).json({"error":"invalid 'cpf'"});
+        }
+
+        SchemaUser.findOne({$or: [
+            {email: req.body.email},
+            {cpf: req.body.cpf}
+        ]})
         .then(result => {
-            res.json(result);
+            if(result){
+                res.json({"error":result.email + " ou " + result.cpf +" já cadastrados"});
+            }
+            else{
+                const newUser = new SchemaUser({
+                    username: req.body.nome,
+                    email: req.body.email,
+                    removed: false,
+                    cpf: req.body.cpf,
+                    senha: crypto.createHash('md5').update(req.body.senha).digest('hex')
+                    });
+                
+                    newUser
+                    .save()
+                    .then(result => {
+                        res.json(result);
+                    })
+                    .catch(error => {
+                        res.status(500).json(error);
+                    });
+            }
         })
         .catch(error => {
             res.status(500).json(error);
@@ -79,14 +100,17 @@ class User {
         //login com email e senha
         SchemaUser.findOne({ email: req.body.email })
         .then(result => {
-            if(result.senha === req.body.senha){
+            if(!result){
+                return res.status(404).json({"error":"Usuario não encontrado ou senha invalida"});
+            }
+            if(result.senha === crypto.createHash('md5').update(req.body.senha).digest('hex')){
                 var token = jwt.sign( {user: result.email}, process.env.SECRET, {
                     expiresIn: 300 // expires in 5min
                   });
                 res.json({ auth: true, "token": token, "user": req.body.email });
             }
             else{
-                res.json({"error":"Usuario não encontrado ou senha invalida"});
+                res.status(404).json({"error":"Usuario não encontrado ou senha invalida"});
             }
             
         })
